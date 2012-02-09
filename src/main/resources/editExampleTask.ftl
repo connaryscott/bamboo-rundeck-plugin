@@ -1,0 +1,1 @@
+[@ww.textfield labelKey="com.dtolabs.rundeck.plugin.say" name="say" required='true'/]
