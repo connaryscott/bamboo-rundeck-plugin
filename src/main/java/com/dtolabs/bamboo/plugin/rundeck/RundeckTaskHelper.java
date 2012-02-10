@@ -67,6 +67,15 @@ public class RundeckTaskHelper
       boolean isParam=false;
       boolean isValue=false;
 
+      if (subStrings.length == 0) {
+         return argProperties;
+      }
+      if (subStrings.length == 1) {
+         if (null == subStrings[0] || "".equals(subStrings[0])) {
+            return argProperties;
+         }
+      }
+
       for (int i=0; i<subStrings.length;) {
          System.out.println("substring: " + subStrings[i]);
          String paramString = subStrings[i];

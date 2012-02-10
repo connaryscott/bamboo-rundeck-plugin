@@ -1,95 +1,33 @@
 <atlassian-plugin key="${project.groupId}.${project.artifactId}" name="${project.name}" plugins-version="2">
-<!--
-<atlassian-plugin key="${atlassian.plugin.key}" name="${project.name}" plugins-version="2">
-does not work, needs to be
-                    com.dtolabs.rundeck.plugin.rundeck-plugin rundeck-plugin
--->
     <plugin-info>
         <description>${project.description}</description>
         <version>${project.version}</version>
         <vendor name="${project.organization.name}" url="${project.organization.url}" />
     </plugin-info>
 
-    <!-- internationalize your plugin -->
-<!--
-    <resource type="i18n" name="com.dtolabs.rundeck.plugin language" location="english"/>
--->
-    <resource type="i18n" name="com.dtolabs.rundeck.plugin language" location="rundeck"/>
+    <!-- internationalize the plugin, perhaps make it rundeck-en-->
+    <resource type="i18n" name="com.dtolabs.bamboo.plugin.rundeck language" location="rundeck"/>
 
-   <web-item key="rundeckConfig" name="Rundeck Configuration" section="system.admin/system" weight="20">
-       <description>Rundeck link that appears on the Administration page</description>
-       <label key="Rundeck Configuration"/>
-       <link linkId="rundeckConfig">/admin/rundeckConfig!default.action</link>
-   </web-item>
-
-
-   <xwork key="rundeckConfigAdmin" name="Rundeck Configuration Admin">
-       <description>Contains the WebWork Actions required for the Rundeck Configuration Administration UI</description>
-       <package name="rundeckAdmin" extends="admin" namespace="/admin">
-           <action name="rundeckConfig" class="com.dtolabs.rundeck.plugin.actions.EditRundeckConfig" method="default">
-               <result name="input" type="freemarker">/admin/viewRundeckConfig.ftl</result>
-           </action>
-           <action name="editRundeckConfig" class="com.dtolabs.rundeck.plugin.actions.EditRundeckConfig">
-               <result name="input" type="freemarker">/admin/viewRundeckConfig.ftl</result>
-               <result name="error" type="freemarker">/error.ftl</result>
-           </action>
-           <action name="deleteRundeckConfig" class="com.dtolabs.rundeck.plugin.actions.DeleteRundeckConfig">
-               <result name="input" type="freemarker">/admin/viewRundeckConfig.ftl</result>
-               <result name="error" type="freemarker">/error.ftl</result>
-           </action>
-           <action name="addRundeckConfig" class="com.dtolabs.rundeck.plugin.actions.EditRundeckConfig">
-               <result name="input" type="freemarker">/admin/addRundeckConfig.ftl</result>
-               <result name="success" type="freemarker">/admin/addRundeckConfig.ftl</result>
-               <result name="error" type="freemarker">/error.ftl</result>
-           </action>
-           <action name="updateRundeckConfig" class="com.dtolabs.rundeck.plugin.actions.EditRundeckConfig">" method="update">
-               <result name="success" type="freemarker">/admin/viewRundeckConfig.ftl</result>
-               <result name="error" type="freemarker">/error.ftl</result>
-           </action>
-           <action name="browseRundeckConfig" class="com.dtolabs.rundeck.plugin.actions.BrowseRundeckConfig"
-                    method="default">
-               <result name="input" type="freemarker">/admin/browseRundeckConfig.ftl</result>
-               <result name="success" type="freemarker">/admin/browseRundeckConfig.ftl</result>
-           </action>
-       </package>
-   </xwork>
-
-   <xwork key="getRundeckConfig" name="Get Rundeck Config">
-       <description>Contains the WebWork Action that supports the retieval of Rundeck Configuration when the selected
-           item in drop down list on the Repository page is changed
-       </description>
-       <package name="getRundeckConfig" extends="rest" namespace="/build">
-           <action name="getRundeckConfig" class="com.dtolabs.rundeck.plugin.actions.GetRundeckConfig">
-               <result name="success" type="freemarker-xml">/config/getRundeckConfig.ftl</result>
-               <result name="input" type="freemarker">/config/getRundeckConfig.ftl</result>
-               <result name="error" type="freemarker-xml">/error.ftl</result>
-           </action>
-       </package>
-   </xwork>
-
-
-
-
-
-    <!-- defines an example task -->
-    <taskType name="rundeck-apitoken-plugin" class="com.dtolabs.rundeck.plugin.RundeckAPITokenTask" key="rundeck-apitoken-plugin">
+    <!-- defines the rundeck-apitoken-plugin task -->
+    <taskType name="rundeck-apitoken-plugin" class="com.dtolabs.bamboo.plugin.rundeck.RundeckAPITokenTask" key="rundeck-apitoken-plugin">
       <description>Connect to the Rundeck Server using an API Token</description>
       <!-- Categories available in 3.1: "builder", "test" and "deployment"
       <category name=""/>
--->
-      <configuration class="com.dtolabs.rundeck.plugin.RundeckAPITokenTaskConfigurator"/>
+         -->
+      <configuration class="com.dtolabs.bamboo.plugin.rundeck.RundeckAPITokenTaskConfigurator"/>
       <resource type="freemarker" name="edit" location="editRundeckAPITokenRundeckTask.ftl"/>
       <resource type="freemarker" name="view" location="viewRundeckAPITokenRundeckTask.ftl"/>
     </taskType>
 
 
-    <taskType name="rundeck-apiuserpass-plugin" class="com.dtolabs.rundeck.plugin.RundeckAPIUserPassTask" key="rundeck-apiuserpass-plugin">
+    <!-- defines the rundeck-apiuserpass-plugin task, needs to be completed -->
+    <taskType name="rundeck-apiuserpass-plugin" class="com.dtolabs.bamboo.plugin.rundeck.RundeckAPIUserPassTask" key="rundeck-apiuserpass-plugin">
       <description>Connect to the Rundeck Server using an API Token</description>
       <!-- Categories available in 3.1: "builder", "test" and "deployment"
       <category name=""/>
-      <configuration class="com.dtolabs.rundeck.plugin.ExampleTaskConfigurator"/>
-      <resource type="freemarker" name="edit" location="editExampleTask.ftl"/>
-      <resource type="freemarker" name="view" location="viewExampleTask.ftl"/>
+      <configuration class="com.dtolabs.bamboo.plugin.rundeck.ExampleTaskConfigurator"/>
+      <resource type="freemarker" name="edit" location="editRundeckAPIUserPassRundeckTask.ftl"/>
+      <resource type="freemarker" name="view" location="viewRundeckAPIUserPassRundeckTask.ftl"/>
       -->
     </taskType>
 </atlassian-plugin>

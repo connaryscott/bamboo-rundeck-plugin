@@ -36,7 +36,7 @@ public class RundeckAPITokenTaskConfigurator extends AbstractTaskConfigurator
         final String jobId = params.getString("jobId");
         if (StringUtils.isEmpty(jobId))
         {
-            errorCollection.addError("jobId", textProvider.getText("com.dtolabs.rundeck.plugin.jobId.error"));
+            errorCollection.addError("jobId", textProvider.getText("bamboo_rundeck_plugin.jobId.error"));
         }
     }
 

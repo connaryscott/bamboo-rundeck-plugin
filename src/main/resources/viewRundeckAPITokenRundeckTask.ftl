@@ -1,2 +1,2 @@
-[@ww.label labelKey="com.dtolabs.rundeck.plugin.jobId" name="jobId"/]
-[@ww.label labelKey="com.dtolabs.rundeck.plugin.jobArgs" name="jobArgs"/]
+[@ww.label labelKey="bamboo_rundeck_plugin.jobId" name="jobId"/]
+[@ww.label labelKey="bamboo_rundeck_plugin.jobArgs" name="jobArgs"/]
