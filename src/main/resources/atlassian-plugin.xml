@@ -15,8 +15,8 @@
       <category name=""/>
          -->
       <configuration class="com.dtolabs.bamboo.plugin.rundeck.RundeckAPITokenTaskConfigurator"/>
-      <resource type="freemarker" name="edit" location="editRundeckAPITokenRundeckTask.ftl"/>
-      <resource type="freemarker" name="view" location="viewRundeckAPITokenRundeckTask.ftl"/>
+      <resource type="freemarker" name="edit" location="editRundeckAPITokenTask.ftl"/>
+      <resource type="freemarker" name="view" location="viewRundeckAPITokenTask.ftl"/>
     </taskType>
 
 
@@ -26,8 +26,8 @@
       <!-- Categories available in 3.1: "builder", "test" and "deployment"
       <category name=""/>
       <configuration class="com.dtolabs.bamboo.plugin.rundeck.ExampleTaskConfigurator"/>
-      <resource type="freemarker" name="edit" location="editRundeckAPIUserPassRundeckTask.ftl"/>
-      <resource type="freemarker" name="view" location="viewRundeckAPIUserPassRundeckTask.ftl"/>
+      <resource type="freemarker" name="edit" location="editRundeckAPIUserPassTask.ftl"/>
+      <resource type="freemarker" name="view" location="viewRundeckAPIUserPassTask.ftl"/>
       -->
     </taskType>
 </atlassian-plugin>
