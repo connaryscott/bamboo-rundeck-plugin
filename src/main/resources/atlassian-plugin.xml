@@ -25,9 +25,9 @@
       <description>Connect to the Rundeck Server using an API Token</description>
       <!-- Categories available in 3.1: "builder", "test" and "deployment"
       <category name=""/>
+      -->
       <configuration class="com.dtolabs.bamboo.plugin.rundeck.ExampleTaskConfigurator"/>
       <resource type="freemarker" name="edit" location="editRundeckAPIUserPassTask.ftl"/>
       <resource type="freemarker" name="view" location="viewRundeckAPIUserPassTask.ftl"/>
-      -->
     </taskType>
 </atlassian-plugin>
