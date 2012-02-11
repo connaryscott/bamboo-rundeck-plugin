@@ -53,10 +53,11 @@ public class RundeckAPIUserPassTask implements TaskType
            throw new TaskException("no variable: " + Constants.RUNDECK_API_PASSWORD_VARNAME + " defined");
         }
 
-        String rundeckJobId = RundeckTaskHelper.getVariableKeyValue(Constants.RUNDECK_JOB_ID_VARNAME, variableDefinitions);
-        if (null == rundeckJobId) {
-           throw new TaskException("no variable: " + Constants.RUNDECK_JOB_ID_VARNAME + " defined");
-        }
+
+
+        String rundeckJobId = taskContext.getConfigurationMap().get("jobId");
+        String rundeckJobArgs = taskContext.getConfigurationMap().get("jobArgs");
+        Properties jobArgProperties = RundeckTaskHelper.convertArgsToProperties(rundeckJobArgs);
 
         buildLogger.addBuildLogEntry("************:Constructing RundeckClient:***********");
         buildLogger.addBuildLogEntry("rundeckUrl:" + "\""+rundeckUrl+"\"");
@@ -67,7 +68,6 @@ public class RundeckAPIUserPassTask implements TaskType
         buildLogger.addBuildLogEntry("**************** Pinging RundeckClient ********************");
         rc.ping();
 
-        Properties jobArgProperties = RundeckTaskHelper.getJobArgs(variableDefinitions, buildLogger);
         buildLogger.addBuildLogEntry("executing RundeckClient.runJob: " + rundeckJobId  + " with properties: " + jobArgProperties.toString());
 
         rc.runJob(rundeckJobId, jobArgProperties);
