@@ -50,8 +50,33 @@ public class RundeckAPITokenTask implements TaskType
 
 
         String rundeckJobId = taskContext.getConfigurationMap().get("jobId");
-        String rundeckJobArgs = taskContext.getConfigurationMap().get("jobArgs");
+        String rundeckJobArgs = null;
+
+// change this to either inline or file (property file)
+
+        String rundeckJobArgsLocation = taskContext.getConfigurationMap().get("jobArgsLocation");
+        if (null != rundeckJobArgsLocation) {
+           if (rundeckJobArgsLocation.equals("INLINE")) {
+              rundeckJobArgs = taskContext.getConfigurationMap().get("jobArgsInline");
+           } else if (rundeckJobArgsLocation.equals("FILE")) {
+              //TODO process a properties file with args and set this string accordingly
+              String rundeckJobArgsFile = taskContext.getConfigurationMap().get("jobArgsFile");
+              rundeckJobArgs = RundeckTaskHelper.convertFileToArgs(rundeckJobArgsFile);
+           } else {
+              // this should not happen
+              rundeckJobArgs = "";
+           }
+        } else {
+           rundeckJobArgs = "";
+        }
+
+        //String rundeckJobArgs = taskContext.getConfigurationMap().get("jobArgs");
         Properties jobArgProperties = RundeckTaskHelper.convertArgsToProperties(rundeckJobArgs);
+
+
+
+
+
 
         buildLogger.addBuildLogEntry("************:Constructing RundeckClient:***********");
         buildLogger.addBuildLogEntry("rundeckUrl:" + "\""+rundeckUrl+"\""); 

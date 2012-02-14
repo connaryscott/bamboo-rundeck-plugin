@@ -4,6 +4,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.ArrayList;
 import java.util.Properties;
+import java.util.Set;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import com.atlassian.bamboo.variable.VariableDefinitionContext;
 import com.atlassian.bamboo.task.TaskException;
 import com.atlassian.bamboo.build.logger.BuildLogger;
@@ -106,5 +110,29 @@ public class RundeckTaskHelper
       return argProperties;
    }
 
+   public static String convertFileToArgs(String fileName) throws TaskException {
+      Properties properties = new Properties();
+      try {
+         properties.load(new FileInputStream(fileName));
+      } catch  (FileNotFoundException e) {
+         throw new TaskException("file: "+ fileName + " not found");
+      } catch  (IOException e) {
+         throw new TaskException("while loading file: "+ fileName + " caught IOException");
+      }
+
+      Set propertyNamesSet = properties.stringPropertyNames();
+      String propertyNames[] = (String [])propertyNamesSet.toArray(new String[0]);
+
+
+      StringBuffer sb = new StringBuffer();
+
+      for (int i=0; i<propertyNames.length; i++) {
+          sb.append(properties.getProperty(propertyNames[i]));
+          if (i+1 < propertyNames.length) {
+             sb.append(" ");
+          }
+      }
+      return sb.toString();
+   }
 
 }

@@ -6,7 +6,12 @@
     </plugin-info>
 
     <!-- internationalize the plugin, perhaps make it rundeck-en-->
-    <resource type="i18n" name="com.dtolabs.bamboo.plugin.rundeck language" location="rundeck"/>
+    <resource type="i18n" name="com.dtolabs.bamboo.plugin.rundeck language" location="rundeck-en"/>
+
+<!--
+how to use ww.select
+https://bitbucket.org/squirmy/bamboo-dotnet-plugin/src/a2c0728be9f3/src/main/resources/com/atlassian/bamboo/plugin/dotnet/nant/nantBuildTaskEdit.ftl
+-->
 
     <!-- defines the rundeck-apitoken-plugin task -->
     <taskType name="rundeck-apitoken-plugin" class="com.dtolabs.bamboo.plugin.rundeck.RundeckAPITokenTask" key="rundeck-apitoken-plugin">
