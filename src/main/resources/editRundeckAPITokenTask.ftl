@@ -15,5 +15,3 @@
 [@ui.bambooSection dependsOn='jobArgsLocation' showOn='INLINE']
     [@ww.textarea rows=25 wrap="off" labelKey='bamboo_rundeck_plugin.jobArgs.location.inline' name='jobArgsInline' cssClass="long-field" /]
 [/@ui.bambooSection]
-
-[@ww.textfield labelKey="bamboo_rundeck_plugin.jobArgs" name="jobArgs" required='false'/]

@@ -48,11 +48,8 @@ public class RundeckAPITokenTask implements TaskType
            throw new TaskException("no variable: " + Constants.RUNDECK_API_TOKEN_VARNAME + " is defined or is empty");
         }
 
-
         String rundeckJobId = taskContext.getConfigurationMap().get("jobId");
         String rundeckJobArgs = null;
-
-// change this to either inline or file (property file)
 
         String rundeckJobArgsLocation = taskContext.getConfigurationMap().get("jobArgsLocation");
         if (null != rundeckJobArgsLocation) {
@@ -70,13 +67,7 @@ public class RundeckAPITokenTask implements TaskType
            rundeckJobArgs = "";
         }
 
-        //String rundeckJobArgs = taskContext.getConfigurationMap().get("jobArgs");
         Properties jobArgProperties = RundeckTaskHelper.convertArgsToProperties(rundeckJobArgs);
-
-
-
-
-
 
         buildLogger.addBuildLogEntry("************:Constructing RundeckClient:***********");
         buildLogger.addBuildLogEntry("rundeckUrl:" + "\""+rundeckUrl+"\""); 

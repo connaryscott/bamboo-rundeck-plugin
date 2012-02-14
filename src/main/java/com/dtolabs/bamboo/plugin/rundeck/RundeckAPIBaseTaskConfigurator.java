@@ -62,7 +62,6 @@ public class RundeckAPIBaseTaskConfigurator extends AbstractTaskConfigurator
      
         config.put("jobId", params.getString("jobId"));
         taskConfiguratorHelper.populateTaskConfigMapWithActionParameters(config, params, Arrays.asList("jobArgsLocationTypes"));
-        config.put("jobArgs", params.getString("jobArgs"));
 
         config.put("jobArgsLocation", params.getString("jobArgsLocation"));
         config.put("jobArgsFile", params.getString("jobArgsFile"));
@@ -93,7 +92,6 @@ public class RundeckAPIBaseTaskConfigurator extends AbstractTaskConfigurator
         context.put("jobId", "");
         context.put("jobArgsLocationTypes", getJobArgsLocationTypes());
         context.put("jobArgsLocation", RundeckAPIBaseTaskConfigurator.JobArgsLocation.INLINE);
-        context.put("jobArgs", "");
 
         context.put("jobArgsFile", "");
         context.put("jobArgsInline", "");
@@ -118,7 +116,6 @@ public class RundeckAPIBaseTaskConfigurator extends AbstractTaskConfigurator
            context.put("jobArgsFile", taskDefinition.getConfiguration().get("jobArgsFile"));
         }
 
-        context.put("jobArgs", taskDefinition.getConfiguration().get("jobArgs"));
     }
 
      
@@ -127,7 +124,6 @@ public class RundeckAPIBaseTaskConfigurator extends AbstractTaskConfigurator
     {
         super.populateContextForView(context, taskDefinition);
         context.put("jobId", taskDefinition.getConfiguration().get("jobId"));
-        context.put("jobArgsLocation", taskDefinition.getConfiguration().get("jobArgsLocation"));
 
         context.put("jobArgsLocation", taskDefinition.getConfiguration().get("jobArgsLocation"));
         if (taskDefinition.getConfiguration().get("jobArgsLocation").equals("INLINE")) {
@@ -137,7 +133,6 @@ public class RundeckAPIBaseTaskConfigurator extends AbstractTaskConfigurator
            context.put("jobArgsFile", taskDefinition.getConfiguration().get("jobArgsFile"));
         }
 
-        context.put("jobArgs", taskDefinition.getConfiguration().get("jobArgs"));
     }
 
     public void setTextProvider(final TextProvider textProvider)

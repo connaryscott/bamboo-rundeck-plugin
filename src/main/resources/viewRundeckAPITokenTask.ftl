@@ -7,5 +7,3 @@
 [@ui.bambooSection dependsOn='jobArgsLocation' showOn='INLINE']
     [@ww.label labelKey='bamboo_rundeck_plugin.jobArgs.location.inline' name='jobArgsInline' hideOnNull='true' /]
 [/@ui.bambooSection]
-
-[@ww.label labelKey="bamboo_rundeck_plugin.jobArgs" name="jobArgs"/]

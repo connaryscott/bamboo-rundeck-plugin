@@ -53,10 +53,25 @@ public class RundeckAPIUserPassTask implements TaskType
            throw new TaskException("no variable: " + Constants.RUNDECK_API_PASSWORD_VARNAME + " defined");
         }
 
-
-
         String rundeckJobId = taskContext.getConfigurationMap().get("jobId");
-        String rundeckJobArgs = taskContext.getConfigurationMap().get("jobArgs");
+        String rundeckJobArgs = null;
+
+        String rundeckJobArgsLocation = taskContext.getConfigurationMap().get("jobArgsLocation");
+        if (null != rundeckJobArgsLocation) {
+           if (rundeckJobArgsLocation.equals("INLINE")) {
+              rundeckJobArgs = taskContext.getConfigurationMap().get("jobArgsInline");
+           } else if (rundeckJobArgsLocation.equals("FILE")) {
+              //TODO process a properties file with args and set this string accordingly
+              String rundeckJobArgsFile = taskContext.getConfigurationMap().get("jobArgsFile");
+              rundeckJobArgs = RundeckTaskHelper.convertFileToArgs(rundeckJobArgsFile);
+           } else {
+              // this should not happen
+              rundeckJobArgs = "";
+           }
+        } else {
+           rundeckJobArgs = "";
+        }
+
         Properties jobArgProperties = RundeckTaskHelper.convertArgsToProperties(rundeckJobArgs);
 
         buildLogger.addBuildLogEntry("************:Constructing RundeckClient:***********");
@@ -71,10 +86,6 @@ public class RundeckAPIUserPassTask implements TaskType
         buildLogger.addBuildLogEntry("executing RundeckClient.runJob: " + rundeckJobId  + " with properties: " + jobArgProperties.toString());
 
         rc.runJob(rundeckJobId, jobArgProperties);
-
-        // no idea what this does but was part of the original hello world example
-        // final String toSay = taskContext.getConfigurationMap().get("say");
-        // buildLogger.addBuildLogEntry(toSay);
 
         return TaskResultBuilder.create(taskContext).success().build();
     }

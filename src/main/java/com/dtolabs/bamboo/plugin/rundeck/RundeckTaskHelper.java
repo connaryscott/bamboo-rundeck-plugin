@@ -125,11 +125,13 @@ public class RundeckTaskHelper
 
 
       StringBuffer sb = new StringBuffer();
-
       for (int i=0; i<propertyNames.length; i++) {
-          sb.append(properties.getProperty(propertyNames[i]));
-          if (i+1 < propertyNames.length) {
-             sb.append(" ");
+          String propertyName = propertyNames[i];
+          if (propertyName.startsWith("bamboo_rundeck_plugin.jobArgs.")) {
+             if (sb.length() != 0) {
+                sb.append(" ");
+             }
+             sb.append(properties.getProperty(propertyName));
           }
       }
       return sb.toString();
