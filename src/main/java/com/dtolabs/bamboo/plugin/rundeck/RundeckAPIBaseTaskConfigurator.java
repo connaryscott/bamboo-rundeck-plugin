@@ -1,3 +1,18 @@
+/*
+ * Copyright 2010 DTO Labs, Inc. (http://dtolabs.com)
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 package com.dtolabs.bamboo.plugin.rundeck;
 
 import com.atlassian.bamboo.collections.ActionParametersMap;
@@ -31,7 +46,7 @@ public class RundeckAPIBaseTaskConfigurator extends AbstractTaskConfigurator
     private TextProvider textProvider;
 
     static public enum JobArgsLocation {
-        INLINE("INLINE"), FILE("FILE");
+        INLINE(Constants.INLINE), FILE(Constants.FILE);
 
         private final String name;
 
@@ -49,9 +64,9 @@ public class RundeckAPIBaseTaskConfigurator extends AbstractTaskConfigurator
         // https://answers.atlassian.com/questions/20566/textprovider-in-sdk-bamboo-helloworld-task-example-does-not-work
         return Lists.newArrayList(
                 new PairType(RundeckAPIBaseTaskConfigurator.JobArgsLocation.INLINE.toString(), this.getI18nBean()
-                        .getText("bamboo_rundeck_plugin.jobArgs.location.inline")),
+                        .getText(Constants.I18N_JOBARGS_LOCATION_INLINE)),
                 new PairType(RundeckAPIBaseTaskConfigurator.JobArgsLocation.FILE.toString(), this.getI18nBean()
-                        .getText("bamboo_rundeck_plugin.jobArgs.location.file"))
+                        .getText(Constants.I18N_JOBARGS_LOCATION_FILE))
         );
     }
 
@@ -60,12 +75,12 @@ public class RundeckAPIBaseTaskConfigurator extends AbstractTaskConfigurator
     {
         final Map<String, String> config = super.generateTaskConfigMap(params, previousTaskDefinition);
      
-        config.put("jobId", params.getString("jobId"));
-        taskConfiguratorHelper.populateTaskConfigMapWithActionParameters(config, params, Arrays.asList("jobArgsLocationTypes"));
+        config.put(Constants.PARAM_JOBID, params.getString(Constants.PARAM_JOBID));
+        taskConfiguratorHelper.populateTaskConfigMapWithActionParameters(config, params, Arrays.asList(Constants.PARAM_JOBARGSLOCATIONTYPES));
 
-        config.put("jobArgsLocation", params.getString("jobArgsLocation"));
-        config.put("jobArgsFile", params.getString("jobArgsFile"));
-        config.put("jobArgsInline", params.getString("jobArgsInline"));
+        config.put(Constants.PARAM_JOBARGSLOCATION, params.getString(Constants.PARAM_JOBARGSLOCATION));
+        config.put(Constants.PARAM_JOBARGSFILE, params.getString(Constants.PARAM_JOBARGSFILE));
+        config.put(Constants.PARAM_JOBARGSINLINE, params.getString(Constants.PARAM_JOBARGSINLINE));
      
         return config;
     }
@@ -75,10 +90,10 @@ public class RundeckAPIBaseTaskConfigurator extends AbstractTaskConfigurator
     {
         super.validate(params, errorCollection);
      
-        final String jobId = params.getString("jobId");
+        final String jobId = params.getString(Constants.PARAM_JOBID);
         if (StringUtils.isEmpty(jobId))
         {
-            errorCollection.addError("jobId", textProvider.getText("bamboo_rundeck_plugin.jobId.error"));
+            errorCollection.addError(Constants.PARAM_JOBID, textProvider.getText(Constants.I18N_JOBID_ERROR));
         }
     }
 
@@ -89,12 +104,12 @@ public class RundeckAPIBaseTaskConfigurator extends AbstractTaskConfigurator
 
         super.populateContextForCreate(context);
      
-        context.put("jobId", "");
-        context.put("jobArgsLocationTypes", getJobArgsLocationTypes());
-        context.put("jobArgsLocation", RundeckAPIBaseTaskConfigurator.JobArgsLocation.INLINE);
+        context.put(Constants.PARAM_JOBID, "");
+        context.put(Constants.PARAM_JOBARGSLOCATIONTYPES, getJobArgsLocationTypes());
+        context.put(Constants.PARAM_JOBARGSLOCATION, RundeckAPIBaseTaskConfigurator.JobArgsLocation.INLINE);
 
-        context.put("jobArgsFile", "");
-        context.put("jobArgsInline", "");
+        context.put(Constants.PARAM_JOBARGSFILE, "");
+        context.put(Constants.PARAM_JOBARGSINLINE, "");
     }
 
 
@@ -103,17 +118,17 @@ public class RundeckAPIBaseTaskConfigurator extends AbstractTaskConfigurator
     {
         super.populateContextForEdit(context, taskDefinition);
      
-        context.put("jobId", taskDefinition.getConfiguration().get("jobId"));
+        context.put(Constants.PARAM_JOBID, taskDefinition.getConfiguration().get(Constants.PARAM_JOBID));
 
-        context.put("jobArgsLocationTypes", getJobArgsLocationTypes());
+        context.put(Constants.PARAM_JOBARGSLOCATIONTYPES, getJobArgsLocationTypes());
 
 
-        context.put("jobArgsLocation", taskDefinition.getConfiguration().get("jobArgsLocation"));
-        if (taskDefinition.getConfiguration().get("jobArgsLocation").equals("INLINE")) {
-           context.put("jobArgsInline", taskDefinition.getConfiguration().get("jobArgsInline"));
+        context.put(Constants.PARAM_JOBARGSLOCATION, taskDefinition.getConfiguration().get(Constants.PARAM_JOBARGSLOCATION));
+        if (taskDefinition.getConfiguration().get(Constants.PARAM_JOBARGSLOCATION).equals(Constants.INLINE)) {
+           context.put(Constants.PARAM_JOBARGSINLINE, taskDefinition.getConfiguration().get(Constants.PARAM_JOBARGSINLINE));
         }
-        if (taskDefinition.getConfiguration().get("jobArgsLocation").equals("FILE")) {
-           context.put("jobArgsFile", taskDefinition.getConfiguration().get("jobArgsFile"));
+        if (taskDefinition.getConfiguration().get(Constants.PARAM_JOBARGSLOCATION).equals(Constants.FILE)) {
+           context.put(Constants.PARAM_JOBARGSFILE, taskDefinition.getConfiguration().get(Constants.PARAM_JOBARGSFILE));
         }
 
     }
@@ -123,14 +138,14 @@ public class RundeckAPIBaseTaskConfigurator extends AbstractTaskConfigurator
     public void populateContextForView(@NotNull final Map<String, Object> context, @NotNull final TaskDefinition taskDefinition)
     {
         super.populateContextForView(context, taskDefinition);
-        context.put("jobId", taskDefinition.getConfiguration().get("jobId"));
+        context.put(Constants.PARAM_JOBID, taskDefinition.getConfiguration().get(Constants.PARAM_JOBID));
 
-        context.put("jobArgsLocation", taskDefinition.getConfiguration().get("jobArgsLocation"));
-        if (taskDefinition.getConfiguration().get("jobArgsLocation").equals("INLINE")) {
-           context.put("jobArgsInline", taskDefinition.getConfiguration().get("jobArgsInline"));
+        context.put(Constants.PARAM_JOBARGSLOCATION, taskDefinition.getConfiguration().get(Constants.PARAM_JOBARGSLOCATION));
+        if (taskDefinition.getConfiguration().get(Constants.PARAM_JOBARGSLOCATION).equals(Constants.INLINE)) {
+           context.put(Constants.PARAM_JOBARGSINLINE, taskDefinition.getConfiguration().get(Constants.PARAM_JOBARGSINLINE));
         }
-        if (taskDefinition.getConfiguration().get("jobArgsLocation").equals("FILE")) {
-           context.put("jobArgsFile", taskDefinition.getConfiguration().get("jobArgsFile"));
+        if (taskDefinition.getConfiguration().get(Constants.PARAM_JOBARGSLOCATION).equals(Constants.FILE)) {
+           context.put(Constants.PARAM_JOBARGSFILE, taskDefinition.getConfiguration().get(Constants.PARAM_JOBARGSFILE));
         }
 
     }
