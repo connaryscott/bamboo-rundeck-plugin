@@ -38,8 +38,12 @@ public class RundeckTaskHelper
        // get a list of variable keys for rundeck info in order to connect properly to the rundeck server
        VariableDefinitionContext variableDefinitionContext =  (VariableDefinitionContext)variableDefinitions.get((Object)key);
 
+       if (null == variableDefinitionContext) throw new TaskException("unable to get key variable: " + key);
+
        String returnValue = (String)variableDefinitionContext.getValue();
-       if (null == returnValue) throw new TaskException("variable " + key + " is not defined");
+
+       if (null == returnValue) throw new TaskException("key variable:" + key + " does not have any value");
+
        return returnValue;
     }
 
