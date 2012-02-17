@@ -48,10 +48,6 @@ public class RundeckTaskHelper
     }
 
 
-    protected static Properties getJobArgs(Map variableDefinitions, BuildLogger buildLogger) throws TaskException {
-       return getVariableKeyValuesByRegex(Constants.RUNDECK_JOB_ARGS_REGEX, variableDefinitions, buildLogger);
-    }
-
     protected static Properties getVariableKeyValuesByRegex(String keyRegex, Map variableDefinitions, BuildLogger buildLogger) throws TaskException {
        
        Set variableKeySet = variableDefinitions.keySet();

@@ -85,6 +85,52 @@ public class RundeckAPIBaseTaskConfigurator extends AbstractTaskConfigurator
         return config;
     }
 
+/*
+TODO:
+example of a better example of a validate() routine:
+ public void validate(@NotNull final ActionParametersMap params, @NotNull final ErrorCollection errorCollection)
+    {
+        super.validate(params, errorCollection);
+
+        String host = params.getString("host");
+        if (StringUtils.isEmpty(host))
+        {
+            errorCollection.addError("host", "You must specify a host to connect to");
+        }
+
+        String username = params.getString("username");
+        if (StringUtils.isEmpty(username))
+        {
+            errorCollection.addError("username", "You must specify a username");
+        }
+
+        String password = params.getString("password");
+
+        if (params.getBoolean("change_password"))
+        {
+            password = params.getString("new_password");
+        }
+
+        if (StringUtils.isEmpty(password))
+        {
+            errorCollection.addError("password", "You must specify a password");
+        }
+
+        String localPath = params.getString("localPath");
+        if (StringUtils.isEmpty(localPath))
+        {
+            errorCollection.addError("localPath", "You must specify a path to a local file");
+        }
+
+        String remotePath = params.getString("remotePath");
+        if (StringUtils.isEmpty(remotePath))
+        {
+            errorCollection.addError("remotePath", "You must specify the remote path on the server");
+        }
+    }
+
+*/
+
 
     public void validate(@NotNull final ActionParametersMap params, @NotNull final ErrorCollection errorCollection)
     {

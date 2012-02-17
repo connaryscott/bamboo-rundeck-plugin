@@ -18,19 +18,16 @@ package com.dtolabs.bamboo.plugin.rundeck;
 
 public class Constants {
     // name of the rundeck url plan variable
-    public static String RUNDECK_URL_VARNAME = "rundeck_url";
+    public static String RUNDECK_URL_VARNAME = "rundeck.url";
 
     // name of the rundeck apiToken plan variable
-    public static String RUNDECK_API_TOKEN_VARNAME = "rundeck_apiToken";
+    public static String RUNDECK_API_TOKEN_VARNAME = "rundeck.apiToken";
 
     // name of the rundeck user plan variable
-    public static String RUNDECK_API_USER_VARNAME = "rundeck_apiUser";
+    public static String RUNDECK_API_USER_VARNAME = "rundeck.apiUser";
 
     // name of the rundeck password plan variable
-    public static String RUNDECK_API_PASSWORD_VARNAME = "rundeck_apiPassword";
-
-    // regex of the rundeck jobArg variables
-    public static String RUNDECK_JOB_ARGS_REGEX = "^rundeck_jobArg_([a-zA-Z0-9_][a-zA-Z0-9_]*)$";
+    public static String RUNDECK_API_PASSWORD_VARNAME = "rundeck.apiPassword";
 
     // INLINE method for job args
     public static String INLINE = "INLINE";
