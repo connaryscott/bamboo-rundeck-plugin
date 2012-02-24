@@ -125,8 +125,8 @@ public abstract class RundeckAPITaskBase implements TaskType
               buildLogger.addBuildLogEntry("getting jobArgs from param: " + Constants.INLINE);
               rundeckJobArgs = taskContext.getConfigurationMap().get(Constants.PARAM_JOBARGSINLINE);
            } else if (rundeckJobArgsLocation.equals(Constants.FILE)) {
-              buildLogger.addBuildLogEntry("getting jobArgs from: param: " + Constants.FILE);
               String rundeckJobArgsFile = taskContext.getConfigurationMap().get(Constants.PARAM_JOBARGSFILE);
+              buildLogger.addBuildLogEntry("loading jobArgs from file: " + rundeckJobArgsFile);
               rundeckJobArgs = RundeckTaskHelper.convertFileToArgs(rundeckJobArgsFile);
            } else {
               // this should not happen
