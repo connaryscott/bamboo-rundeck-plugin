@@ -17,17 +17,20 @@ package com.dtolabs.bamboo.plugin.rundeck;
 
 
 public class Constants {
-    // name of the rundeck url plan variable
+    // name of the rundeck url bamboo global/plan variable
     public static String RUNDECK_URL_VARNAME = "rundeck.url";
 
-    // name of the rundeck apiToken plan variable
+    // name of the rundeck apiToken bamboo global/plan variable
     public static String RUNDECK_API_TOKEN_VARNAME = "rundeck.apiToken";
 
-    // name of the rundeck user plan variable
+    // name of the rundeck user plan bamboo global/plan variable
     public static String RUNDECK_API_USER_VARNAME = "rundeck.apiUser";
 
-    // name of the rundeck password plan variable
+    // name of the rundeck password bamboo global/plan variable
     public static String RUNDECK_API_PASSWORD_VARNAME = "rundeck.apiPassword";
+
+    // name of the rundeck disable bamboo global/plan variable
+    public static String RUNDECK_DISABLE_VARNAME = "rundeck.disable";
 
     // INLINE method for job args
     public static String INLINE = "INLINE";
