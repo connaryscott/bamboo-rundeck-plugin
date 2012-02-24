@@ -167,7 +167,7 @@ public abstract class RundeckAPITaskBase implements TaskType
            buildLogger.addBuildLogEntry("running rundeck job, jobId: " + rundeckJobId + " with argProperties: " + jobArgProperties.toString());
            rc.runJob(rundeckJobId, jobArgProperties); 
         } else {
-           buildLogger.addBuildLogEntry("rundeck integration disabled, NOT running rundeck job, jobId: " + rundeckJobId + " with argProperties: " + jobArgProperties.toString());
+           buildLogger.addBuildLogEntry("rundeck integration disabled, NOT running rundeck job");
         }
         return TaskResultBuilder.create(taskContext).success().build();
     }
