@@ -66,6 +66,7 @@ public abstract class RundeckAPITaskBase implements TaskType
            "YES".equals(rundeckDisable)  ||
            "yes".equals(rundeckDisable)) {
           this.rundeckDisable = true;
+          buildLogger.addBuildLogEntry("bamboo variable: " + Constants.RUNDECK_DISABLE_VARNAME + " set to: " + rundeckDisable + " disabling rundeck plugin");
        }
        return;
     }
@@ -165,6 +166,8 @@ public abstract class RundeckAPITaskBase implements TaskType
            rc.ping();
            buildLogger.addBuildLogEntry("running rundeck job, jobId: " + rundeckJobId + " with argProperties: " + jobArgProperties.toString());
            rc.runJob(rundeckJobId, jobArgProperties); 
+        } else {
+           buildLogger.addBuildLogEntry("rundeck integration disabled, NOT running rundeck job, jobId: " + rundeckJobId + " with argProperties: " + jobArgProperties.toString());
         }
         return TaskResultBuilder.create(taskContext).success().build();
     }
