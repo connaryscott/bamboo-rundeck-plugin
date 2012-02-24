@@ -108,7 +108,7 @@ public abstract class RundeckAPITaskBase implements TaskType
 
     private String rundeckJobId;
     private void setRundeckJobId() throws TaskException {
-        buildLogger.addBuildLogEntry("getting rundeck jobId from bamboo variable:  " + Constants.PARAM_JOBID);
+        buildLogger.addBuildLogEntry("getting rundeck jobId from task param:  " + Constants.PARAM_JOBID);
        rundeckJobId = taskContext.getConfigurationMap().get(Constants.PARAM_JOBID);
         if (null == rundeckJobId || "".equals(rundeckJobId)) {
            throw new TaskException("no variable: " + Constants.PARAM_JOBID + " is defined or is empty");
@@ -120,13 +120,12 @@ public abstract class RundeckAPITaskBase implements TaskType
 
         String rundeckJobArgs = null;
         String rundeckJobArgsLocation = taskContext.getConfigurationMap().get(Constants.PARAM_JOBARGSLOCATION);
-        buildLogger.addBuildLogEntry("determining rundeck jobArgs from variable: " + Constants.PARAM_JOBARGSLOCATION);
         if (null != rundeckJobArgsLocation) {
            if (rundeckJobArgsLocation.equals(Constants.INLINE)) {
-              buildLogger.addBuildLogEntry("getting jobArgs from: " + Constants.INLINE);
+              buildLogger.addBuildLogEntry("getting jobArgs from param: " + Constants.INLINE);
               rundeckJobArgs = taskContext.getConfigurationMap().get(Constants.PARAM_JOBARGSINLINE);
            } else if (rundeckJobArgsLocation.equals(Constants.FILE)) {
-              buildLogger.addBuildLogEntry("getting jobArgs from: " + Constants.FILE);
+              buildLogger.addBuildLogEntry("getting jobArgs from: param: " + Constants.FILE);
               String rundeckJobArgsFile = taskContext.getConfigurationMap().get(Constants.PARAM_JOBARGSFILE);
               rundeckJobArgs = RundeckTaskHelper.convertFileToArgs(rundeckJobArgsFile);
            } else {
