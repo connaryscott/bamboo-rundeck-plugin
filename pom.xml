@@ -24,8 +24,6 @@
     <artifactId>bamboo-rundeck-plugin</artifactId>
     <version>1.1-SNAPSHOT</version>
 
-    </licenses>
-
     <organization>
         <name>DTOLABS</name>
         <url>https://github.com/dtolabs/</url>

@@ -24,6 +24,7 @@ import com.atlassian.bamboo.task.TaskType;
 import org.jetbrains.annotations.NotNull;
 
 import org.rundeck.api.RundeckClient;
+import org.rundeck.api.domain.RundeckExecution;
 import com.atlassian.bamboo.v2.build.BuildContext;
 import com.atlassian.bamboo.variable.VariableContext;
 import java.util.Map;
@@ -165,7 +166,20 @@ public abstract class RundeckAPITaskBase implements TaskType
            buildLogger.addBuildLogEntry("pinging rundeck server");
            rc.ping();
            buildLogger.addBuildLogEntry("running rundeck job, jobId: " + rundeckJobId + " with argProperties: " + jobArgProperties.toString());
-           rc.runJob(rundeckJobId, jobArgProperties); 
+           RundeckExecution rundeckExecution = rc.runJob(rundeckJobId, jobArgProperties); 
+           RundeckExecution.ExecutionStatus jobStatus = rundeckExecution.getStatus();
+           if (jobStatus == jobStatus.FAILED) {
+              throw new TaskException("rundeckJobId:  " + rundeckJobId + " failed");
+           }
+           if (jobStatus == jobStatus.ABORTED) {
+              throw new TaskException("rundeckJobId:  " + rundeckJobId + " aborted");
+           }
+           if (jobStatus == jobStatus.RUNNING) {
+              throw new TaskException("rundeckJobId:  " + rundeckJobId + " still running");
+           }
+           if (jobStatus != jobStatus.SUCCEEDED) {
+              throw new TaskException("rundeckJobId:  " + rundeckJobId + " did not succeed, unknown reason");
+           }
         } else {
            buildLogger.addBuildLogEntry("rundeck integration disabled, NOT running rundeck job");
         }
