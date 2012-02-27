@@ -24,10 +24,27 @@
     <artifactId>bamboo-rundeck-plugin</artifactId>
     <version>1.1-SNAPSHOT</version>
 
+    </licenses>
+
     <organization>
         <name>DTOLABS</name>
         <url>https://github.com/dtolabs/</url>
     </organization>
+
+    <developers>
+        <developer>
+            <name>Chuck Scott</name>
+            <email>chuck@dtosolutions.com</email>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>Apache 2</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+            <comments>A business-friendly OSS license</comments>
+    </license>
 
     <name>bamboo-rundeck-plugin</name>
     <description>This is the com.dtolabs.bamboo:plugin:>bamboo-rundeck-plugin plugin for Atlassian Bamboo.</description>
