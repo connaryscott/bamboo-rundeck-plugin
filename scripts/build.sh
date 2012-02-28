@@ -1,5 +1,19 @@
 #!/bin/bash
 
+downloadSDK() {
+   if [ "$1" = curl ]
+   then
+      curl -o ${ATLAS_SDK_TGZ} -skLf ${ATLAS_SDK_URL}
+   elif [ "$1" = wget ]
+   then
+      wget --no-check-certificate -O ${ATLAS_SDK_TGZ} ${ATLAS_SDK_URL}
+   else 
+      #echo "unable to execute:   wget --no-check-certificate -O ${ATLAS_SDK_TGZ} ${ATLAS_SDK_URL}"
+      echo bogus download method: $1
+      exit 1
+   fi
+}
+
 if [ $# -eq 0 ]
 then
    BRANCH=master
@@ -10,6 +24,20 @@ fi
 if [ -z "${JAVA_HOME}" ]
 then
    export JAVA_HOME=/usr
+fi
+
+CURL=$(which curl)
+if [ -z "${CURL}" ]
+then
+   WGET=$(which wget)
+   if [ -z "${WGET}" ]
+   then
+      echo "I give up, as I cannot find curl nor wget and no way to download the atlassian sdk :(" 1>&2
+      exit 1
+   fi
+   downloadMethod=wget
+else
+   downloadMethod=curl
 fi
 
 RUNDECK_PLUGIN_NAME=bamboo-rundeck-plugin
@@ -32,7 +60,8 @@ then
       exit 1
    fi
    pushd ${ATLAS_SDK_ROOT} || { echo "unable to pushd into ${ATLAS_SDK_ROOT}" 1>&2; exit 1; }
-      if ! curl -o ${ATLAS_SDK_TGZ} -skLf ${ATLAS_SDK_URL}
+      #if ! curl -o ${ATLAS_SDK_TGZ} -skLf ${ATLAS_SDK_URL}
+      if ! downloadSDK ${downloadMethod} 
       then
          echo "unable to download ${ATLAS_SDK_URL} to $(pwd)/${ATLAS_SDK_TGZ}" 1>&2
          exit 1
