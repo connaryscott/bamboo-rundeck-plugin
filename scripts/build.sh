@@ -7,7 +7,10 @@ else
    BRANCH=$1
 fi
 
-export JAVA_HOME=/usr
+if [ -z "${JAVA_HOME}" ]
+then
+   export JAVA_HOME=/usr
+fi
 
 RUNDECK_PLUGIN_NAME=bamboo-rundeck-plugin
 
