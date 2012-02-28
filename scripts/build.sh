@@ -105,5 +105,9 @@ then
 fi
 
 pushd ${RUNDECK_PLUGIN_NAME}  || { echo "unable to pushd into $(pwd)/${RUNDECK_PLUGIN_NAME}" 1>&2; exit 1; }
-   ${ATLAS_MVN} -Dmaven.test.skip=false clean install
+   if ! ${ATLAS_MVN} -Dmaven.test.skip=false clean install
+   then
+      echo "failed executing ${ATLAS_MVN} -Dmaven.test.skip=false clean install" 1>&2
+      exit 1
+   fi
 popd
