@@ -57,6 +57,12 @@
 
     <dependencies>
         <dependency>
+           <groupId>com.atlassian.profiling</groupId>
+           <artifactId>atlassian-profiling</artifactId>
+           <version>1.8.1</version>
+           <scope>compile</scope>    
+        </dependency>
+        <dependency>
             <groupId>com.atlassian.bamboo</groupId>
             <artifactId>atlassian-bamboo-web</artifactId>
             <version>${bamboo.version}</version>
