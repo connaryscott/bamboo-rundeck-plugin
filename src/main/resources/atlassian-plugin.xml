@@ -43,7 +43,7 @@ https://bitbucket.org/squirmy/bamboo-dotnet-plugin/src/a2c0728be9f3/src/main/res
 
     <!-- defines the rundeck-apiuserpass-plugin task, needs to be completed -->
     <taskType name="rundeck-apiuserpass-plugin" class="com.dtolabs.bamboo.plugin.rundeck.RundeckAPIUserPassTask" key="rundeck-apiuserpass-plugin">
-      <description>Connect to the Rundeck Server using an API Token</description>
+      <description>Connect to the Rundeck Server using an API Username/Password</description>
       <!-- Categories available in 3.1: "builder", "test" and "deployment"
       <category name=""/>
       -->
