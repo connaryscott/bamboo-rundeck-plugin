@@ -83,6 +83,13 @@ fi
 
 export PATH=${ATLAS_SDK_ROOT}/bin:${PATH}
 
+   if ! ${ATLAS_MVN} -Dmaven.test.skip=false clean install
+   then
+      echo "failed executing ${ATLAS_MVN} -Dmaven.test.skip=false clean install" 1>&2
+      exit 1
+   fi
+
+exit $?
 if [ ! -d ${RUNDECK_PLUGIN_NAME} ]
 then
    if ! git clone ${RUNDECK_PLUGIN_SCM_URL}
