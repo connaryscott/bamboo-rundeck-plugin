@@ -44,7 +44,8 @@ RUNDECK_PLUGIN_NAME=bamboo-rundeck-plugin
 
 RUNDECK_PLUGIN_SCM_URL=git://github.com/connaryscott/${RUNDECK_PLUGIN_NAME}.git
 ATLAS_SDK=atlassian-plugin-sdk
-ATLAS_SDK_VERSION=3.7.3
+#ATLAS_SDK_VERSION=3.7.3
+ATLAS_SDK_VERSION=3.8
 ATLAS_SDK_TGZ=${ATLAS_SDK}-${ATLAS_SDK_VERSION}.tar.gz
 ATLAS_SDK_URL=https://maven.atlassian.com/content/repositories/atlassian-public/com/atlassian/amps/${ATLAS_SDK}/${ATLAS_SDK_VERSION}/${ATLAS_SDK_TGZ}
 
