@@ -83,39 +83,8 @@ fi
 
 export PATH=${ATLAS_SDK_ROOT}/bin:${PATH}
 
-   if ! ${ATLAS_MVN} -Dmaven.test.skip=false clean install
-   then
+if ! ${ATLAS_MVN} -Dmaven.test.skip=false clean install
+then
       echo "failed executing ${ATLAS_MVN} -Dmaven.test.skip=false clean install" 1>&2
       exit 1
-   fi
-
-exit $?
-if [ ! -d ${RUNDECK_PLUGIN_NAME} ]
-then
-   if ! git clone ${RUNDECK_PLUGIN_SCM_URL}
-   then
-      echo "unable to clone ${RUNDECK_PLUGIN_SCM_URL}" 1>&2
-      exit 1
-   fi
 fi
-pushd ${RUNDECK_PLUGIN_NAME}
-   if ! git checkout ${BRANCH}
-   then
-      echo "unable to update ${BRANCH} via git checkout" 1>&2
-      exit 1
-   fi
-popd
-
-if [ ! -d ${RUNDECK_PLUGIN_NAME} ]
-then
-   echo "directory ${RUNDECK_PLUGIN_NAME} does not appear to exist" 1>&2
-   exit 1
-fi
-
-pushd ${RUNDECK_PLUGIN_NAME}  || { echo "unable to pushd into $(pwd)/${RUNDECK_PLUGIN_NAME}" 1>&2; exit 1; }
-   if ! ${ATLAS_MVN} -Dmaven.test.skip=false clean install
-   then
-      echo "failed executing ${ATLAS_MVN} -Dmaven.test.skip=false clean install" 1>&2
-      exit 1
-   fi
-popd
