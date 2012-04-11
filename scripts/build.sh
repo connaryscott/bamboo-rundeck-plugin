@@ -14,11 +14,23 @@ downloadSDK() {
    fi
 }
 
-if [ $# -eq 0 ]
+usage() {
+   echo "build.sh  [<mavenPhase>]"
+   echo "example:  build.sh"
+   echo "   build.sh install"
+   echo "   build.sh deploy (default)"
+}
+
+if [ $# -lt 1 ]
 then
-   BRANCH=master
+   MVN_PHASE=deploy
+elif [ $# -eq 1 ]
+then
+   MVN_PHASE=$1
 else
-   BRANCH=$1
+   echo "invalid number or args" 1>&2
+   usage
+   exit 1
 fi
 
 if [ -z "${JAVA_HOME}" ]
@@ -83,8 +95,8 @@ fi
 
 export PATH=${ATLAS_SDK_ROOT}/bin:${PATH}
 
-if ! ${ATLAS_MVN} -Dmaven.test.skip=false clean install
+if ! ${ATLAS_MVN} -Dmaven.test.skip=false clean ${MVN_PHASE}
 then
-      echo "failed executing ${ATLAS_MVN} -Dmaven.test.skip=false clean install" 1>&2
+      echo "failed executing ${ATLAS_MVN} -Dmaven.test.skip=false clean ${MVN_PHASE}" 1>&2
       exit 1
 fi
