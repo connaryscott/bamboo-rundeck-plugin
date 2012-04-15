@@ -14,17 +14,30 @@ downloadSDK() {
    fi
 }
 
-if [ $# -eq 0 ]
+usage() {
+   echo "build.sh  [<mavenPhase>]"
+   echo "example:  build.sh"
+   echo "   build.sh install"
+   echo "   build.sh deploy (default)"
+}
+
+if [ $# -lt 1 ]
 then
-   BRANCH=master
+   MVN_PHASE=deploy
+elif [ $# -eq 1 ]
+then
+   MVN_PHASE=$1
 else
-   BRANCH=$1
+   echo "invalid number or args" 1>&2
+   usage
+   exit 1
 fi
 
 if [ -z "${JAVA_HOME}" ]
 then
    export JAVA_HOME=/usr
 fi
+
 
 CURL=$(which curl)
 if [ -z "${CURL}" ]
@@ -44,7 +57,6 @@ RUNDECK_PLUGIN_NAME=bamboo-rundeck-plugin
 
 RUNDECK_PLUGIN_SCM_URL=git://github.com/connaryscott/${RUNDECK_PLUGIN_NAME}.git
 ATLAS_SDK=atlassian-plugin-sdk
-#ATLAS_SDK_VERSION=3.7.3
 ATLAS_SDK_VERSION=3.8
 ATLAS_SDK_TGZ=${ATLAS_SDK}-${ATLAS_SDK_VERSION}.tar.gz
 ATLAS_SDK_URL=https://maven.atlassian.com/content/repositories/atlassian-public/com/atlassian/amps/${ATLAS_SDK}/${ATLAS_SDK_VERSION}/${ATLAS_SDK_TGZ}
@@ -61,7 +73,6 @@ then
       exit 1
    fi
    pushd ${ATLAS_SDK_ROOT} || { echo "unable to pushd into ${ATLAS_SDK_ROOT}" 1>&2; exit 1; }
-      #if ! curl -o ${ATLAS_SDK_TGZ} -skLf ${ATLAS_SDK_URL}
       if ! downloadSDK ${downloadMethod} 
       then
          echo "unable to download ${ATLAS_SDK_URL} to $(pwd)/${ATLAS_SDK_TGZ}" 1>&2
@@ -81,10 +92,18 @@ then
    fi
 fi
 
+#
+# set default settings.xml if not defined
+#
+if [ -z "${M2_SETTINGS_XML}" ]
+then
+   M2_SETTINGS_XML=${ATLAS_SDK_ROOT}/apache-maven/conf/settings.xml
+fi
+
 export PATH=${ATLAS_SDK_ROOT}/bin:${PATH}
 
-if ! ${ATLAS_MVN} -Dmaven.test.skip=false clean install
+if ! ${ATLAS_MVN} -s ${M2_SETTINGS_XML} -Dmaven.test.skip=false clean ${MVN_PHASE}
 then
-      echo "failed executing ${ATLAS_MVN} -Dmaven.test.skip=false clean install" 1>&2
+      echo "failed executing ${ATLAS_MVN} -Dmaven.test.skip=false clean ${MVN_PHASE}" 1>&2
       exit 1
 fi

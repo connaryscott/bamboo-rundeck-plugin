@@ -60,7 +60,7 @@
            <groupId>com.atlassian.profiling</groupId>
            <artifactId>atlassian-profiling</artifactId>
            <version>1.8.1</version>
-           <scope>compile</scope> 
+           <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.atlassian.bamboo</groupId>
@@ -226,4 +226,17 @@
             </plugin>
         </plugins>
     </build>
+
+    <distributionManagement>
+       <repository>
+           <id>atlassian-contrib</id>
+           <name>Atlassian Contrib Repository</name>
+           <url>dav:https://maven.atlassian.com/contrib</url>
+       </repository>
+       <snapshotRepository>
+           <id>atlassian-contrib-snapshot</id>
+           <name>Atlassian Contrib Snapshot Repository</name>
+           <url>dav:https://maven.atlassian.com/contrib-snapshot</url>
+       </snapshotRepository>
+    </distributionManagement>
 </project>
