@@ -1,13 +1,13 @@
-You have successfully created a plugin using the Bamboo plugin archetype!
+Rundeck/Bamboo Plugin for the Rundeck REST API
 
-Here are the SDK commands you'll use immediately:
+Documentation : https://github.com/connaryscott/bamboo-rundeck-plugin/wiki
 
-* atlas-run   -- installs this plugin into Bamboo and starts it on http://localhost:6990/bamboo
-* atlas-debug -- same as atlas-run, but allows a debugger to attach at port 5005
-* atlas-cli   -- after atlas-run or atlas-debug, opens a Maven command line window:
-                 - 'pi' reinstalls the plugin into the running Bamboo instance
-* atlas-help  -- prints description for all commands in the SDK
+Rundeck Home : http://rundeck.org/
 
-Full documentation is always available at:
+LICENSE : The Apache Software License, Version 2.0
+See the LICENSE file, or http://www.apache.org/licenses/LICENSE-2.0
 
-https://developer.atlassian.com/display/DOCS/Developing+with+the+Atlassian+Plugin+SDK
+How to build :
+- prerequisites : see https://developer.atlassian.com/display/DOCS/Developer+Quick+Start or review convenience script:  https://github.com/connaryscott/bamboo-rundeck-plugin/blob/master/scripts/build.sh
+- execute ./scripts/build.sh 
+- refer to the built jar: target/bamboo-rundeck-plugin-VERSION.jar which can be loaded into Bamboo using Bamboo's Universal Plugin Manager (UPM)

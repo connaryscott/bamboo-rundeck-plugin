@@ -23,7 +23,7 @@ usage() {
 
 if [ $# -lt 1 ]
 then
-   MVN_PHASE=deploy
+   MVN_PHASE=install
 elif [ $# -eq 1 ]
 then
    MVN_PHASE=$1
