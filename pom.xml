@@ -22,7 +22,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.dtolabs.bamboo.plugin</groupId>
     <artifactId>bamboo-rundeck-plugin</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.1</version>
 
     <organization>
         <name>DTOLABS</name>
