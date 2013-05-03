@@ -25,10 +25,17 @@ import org.jetbrains.annotations.NotNull;
 
 import org.rundeck.api.RundeckClient;
 import org.rundeck.api.domain.RundeckExecution;
+import org.rundeck.api.domain.RundeckOutput;
+import org.rundeck.api.domain.RundeckOutputEntry;
 import com.atlassian.bamboo.v2.build.BuildContext;
 import com.atlassian.bamboo.variable.VariableContext;
 import java.util.Map;
+import java.util.List;
 import java.util.Properties;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
+import java.io.IOException;
 
 
 public abstract class RundeckAPITaskBase implements TaskType
@@ -168,6 +175,28 @@ public abstract class RundeckAPITaskBase implements TaskType
            buildLogger.addBuildLogEntry("running rundeck job, jobId: " + rundeckJobId + " with argProperties: " + jobArgProperties.toString());
            RundeckExecution rundeckExecution = rc.runJob(rundeckJobId, jobArgProperties); 
            RundeckExecution.ExecutionStatus jobStatus = rundeckExecution.getStatus();
+
+           // we must get the logs here and send it back to the api caller
+
+           buildLogger.addBuildLogEntry("BEGIN RUNDECK LOG OUTPUT");
+           int offset=0;
+           while (true) {
+              RundeckOutput rundeckOutput = rc.getJobExecutionOutput(rundeckExecution.getId(), offset, 0, 0);
+              if (null == rundeckOutput) {
+                 break;
+              }
+              List<RundeckOutputEntry> logEntries = rundeckOutput.getLogEntries();
+              if (null == logEntries) {
+                 break;
+              }
+              for (int i=0; i<logEntries.size(); i++) {   
+                 RundeckOutputEntry rundeckOutputEntry = (RundeckOutputEntry)logEntries.get(i);
+                 buildLogger.addBuildLogEntry(rundeckOutputEntry.getMessage());
+              }
+              offset+=rundeckOutput.getOffset();
+           }
+           buildLogger.addBuildLogEntry("END RUNDECK LOG OUTPUT");
+
            if (jobStatus == jobStatus.FAILED) {
               throw new TaskException("rundeckJobId:  " + rundeckJobId + " failed");
            }
