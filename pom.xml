@@ -228,11 +228,12 @@
     </build>
 
     <distributionManagement>
-        <repository>
-            <id>bintray-connaryscott-maven-releases-bamboo-rundeck-plugin</id>
-            <name>connaryscott-maven-releases-bamboo-rundeck-plugin</name>
-            <url>https://api.bintray.com/maven/connaryscott/maven-releases/bamboo-rundeck-plugin</url>
-        </repository>
+       <repository>
+           <id>atlassian-contrib</id>
+           <name>Atlassian Contrib Repository</name>
+           <url>dav:https://maven.atlassian.com/contrib</url>
+       </repository>
+
        <snapshotRepository>
            <id>atlassian-contrib-snapshot</id>
            <name>Atlassian Contrib Snapshot Repository</name>
