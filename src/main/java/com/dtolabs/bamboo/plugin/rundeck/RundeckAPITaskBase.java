@@ -136,7 +136,7 @@ public abstract class RundeckAPITaskBase implements TaskType
            } else if (rundeckJobArgsLocation.equals(Constants.FILE)) {
               String rundeckJobArgsFile = taskContext.getConfigurationMap().get(Constants.PARAM_JOBARGSFILE);
               buildLogger.addBuildLogEntry("loading jobArgs from file: " + rundeckJobArgsFile);
-              rundeckJobArgs = RundeckTaskHelper.convertFileToArgs(rundeckJobArgsFile);
+              rundeckJobArgs = RundeckTaskHelper.convertFileToArgs(rundeckJobArgsFile, buildLogger);
            } else {
               // this should not happen
               rundeckJobArgs = "";
@@ -145,7 +145,7 @@ public abstract class RundeckAPITaskBase implements TaskType
            buildLogger.addBuildLogEntry("no jobArgs detected, setting to empty string");
            rundeckJobArgs = "";
         }
-       jobArgProperties = RundeckTaskHelper.convertArgsToProperties(rundeckJobArgs);
+       jobArgProperties = RundeckTaskHelper.convertArgsToProperties(rundeckJobArgs, buildLogger);
     }
 
     private RundeckClient getRundeckClient() throws TaskException {

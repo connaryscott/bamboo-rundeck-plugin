@@ -77,55 +77,32 @@ public class RundeckTaskHelper
 
     }
 
-
-   public static Properties convertArgsToProperties(String args) throws TaskException {
+   public static Properties convertArgsToProperties(String args, BuildLogger buildLogger) throws TaskException {
       Properties argProperties = new Properties();
 
+      String[] words = getWords(args, buildLogger);
 
-      String[] subStrings = args.split("[\\s]+");
-      boolean isParam=false;
-      boolean isValue=false;
-
-      if (subStrings.length == 0) {
-         return argProperties;
-      }
-      if (subStrings.length == 1) {
-         if (null == subStrings[0] || "".equals(subStrings[0])) {
-            return argProperties;
-         }
-      }
-
-      for (int i=0; i<subStrings.length;) {
-         System.out.println("substring: " + subStrings[i]);
-         String paramString = subStrings[i];
-
-         String param = null;
-         String value = null;
-         if (paramString.startsWith("-")) {
-            param = paramString.substring(1);
+      String key = null;
+      for (int i=0; i<words.length; i++) {
+         if (i % 2 == 0) {
+            //should be a key prefixed by hyphen
+            if (!words[i].startsWith("-")) {
+              throw new TaskException("jobArgs format error, param: " + words[i] + " does not begin with -");
+            }
+            key = words[i].substring(1);
          } else {
-             System.out.println("throw arg format param error + " + param);
-             throw new TaskException("jobArgs format error, param: " + param + " does not begin with -");
+            if (null == key) {
+              throw new TaskException("null key, cannot set null key with value: " + words[i]);
+            }
+            argProperties.setProperty(key, words[i]);
+            key = null;
          }
-
-         i++;
-         if (i == subStrings.length) {
-             throw new TaskException("jobArgs format param error, param: " + param + " does not have a value");
-         }
-         value = subStrings[i];
-
-         //System.out.println("param: " + param);
-         //System.out.println("value: " + value);
-
-         argProperties.setProperty(param, value);
-
-         i++;
       }
 
       return argProperties;
    }
 
-   public static String convertFileToArgs(String fileName) throws TaskException {
+   public static String convertFileToArgs(String fileName, BuildLogger buildLogger) throws TaskException {
       Properties properties = new Properties();
       try {
          properties.load(new FileInputStream(fileName));
@@ -150,6 +127,45 @@ public class RundeckTaskHelper
           }
       }
       return sb.toString();
+   }
+
+   // parse out words, strings enclosed in double quotes, or whitespace separated strings
+   private static String[] getWords(String args, BuildLogger buildLogger) throws TaskException {
+
+     buildLogger.addBuildLogEntry("args:  " + args);
+
+      // if no double quotes, then white space is our token separator
+      if (args.indexOf("\"") == -1) {
+         return args.split("[\\s]+");
+      }
+
+     // odd number of quotes is not valid since quotes will be unbalanced
+     if   ( ( args.replaceAll("[^\"]","").trim().length() % 2 ) != 0 ) throw new TaskException ("unbalanced quotes: " + args);
+
+      // tokenize on double quotes
+      String[] argStrings = args.split("[\"]");
+
+      // add a list of words to the wordList
+      ArrayList<String> wordList = new <String>ArrayList();
+      for (int i=0; i<argStrings.length; i++) {
+         if (i % 2 == 0) {
+            // if first, third, ... then we should have strings which are whitespace separated and not enclosed in quotes
+            String[] words = argStrings[i].split("[\\s]+");
+            for (int j=0; j<words.length; j++) {
+               if (words[j].equals("")) {
+                  continue;
+               }
+               wordList.add(words[j]);
+            }
+         } else {
+            // if second, fourth, ... then we should have a quoted word 
+           String quotedWord = argStrings[i];
+           wordList.add(quotedWord);
+         }
+
+      }
+
+      return wordList.toArray(new String[wordList.size()]);
    }
 
 }
